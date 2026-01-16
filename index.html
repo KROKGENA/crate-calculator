@@ -3,9 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Калькулятор стоимости ящика</title>
+  <title>Калькулятор себестоимости ящика</title>
   <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {
+              if (document.scripts[j].src === r) { return; }
+          }
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],
+          k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script',
+         'https://mc.yandex.ru/metrika/tag.js?id=106287212',
+         'ym');
+
+      ym(106287212, 'init', {
+          ssr:true,
+          webvisor:true,
+          clickmap:true,
+          ecommerce:"dataLayer",
+          accurateTrackBounce:true,
+          trackLinks:true
+      });
+  </script>
+  <noscript>
+    <div>
+      <img src="https://mc.yandex.ru/watch/106287212"
+           style="position:absolute; left:-9999px;"
+           alt="" />
+    </div>
+  </noscript>
+  <!-- /Yandex.Metrika counter -->
+
 </head>
+
 <body>
   <main class="wrap">
     <h1>Калькулятор себестоимости ящика</h1>
@@ -15,34 +49,28 @@
       <h2>Материалы</h2>
 
       <div class="grid">
-        <label>
-          Цена древесины, ₽/м³
-          <input id="woodPrice" type="number" min="0" step="1" value="0">
+        <label>Цена древесины, ₽/м³
+          <input id="woodPrice" type="number" value="0">
         </label>
 
-        <label>
-          Отходы по дереву, %
-          <input id="wastePct" type="number" min="0" step="0.1" value="8">
+        <label>Отходы по дереву, %
+          <input id="wastePct" type="number" value="8">
         </label>
 
-        <label>
-          Уголок металлический, ₽/шт
-          <input id="cornerPrice" type="number" min="0" step="1" value="0">
+        <label>Уголок металлический, ₽/шт
+          <input id="cornerPrice" type="number" value="0">
         </label>
 
-        <label>
-          Кол-во уголков, шт
-          <input id="cornerQty" type="number" min="0" step="1" value="4">
+        <label>Кол-во уголков, шт
+          <input id="cornerQty" type="number" value="4">
         </label>
 
-        <label>
-          Гвоздь ершеный, ₽/кг
-          <input id="nailPrice" type="number" min="0" step="1" value="0">
+        <label>Гвоздь ершеный, ₽/кг
+          <input id="nailPrice" type="number" value="0">
         </label>
 
-        <label>
-          Расход гвоздей, кг/ящик
-          <input id="nailKg" type="number" min="0" step="0.01" value="0.6">
+        <label>Расход гвоздей, кг/ящик
+          <input id="nailKg" type="number" step="0.01" value="0.6">
         </label>
       </div>
     </section>
@@ -51,73 +79,60 @@
       <h2>Работы</h2>
 
       <div class="grid">
-        <label>
-          Ставка рабочего, ₽/день
-          <input id="workerDayRate" type="number" min="0" step="1" value="0">
+        <label>Ставка рабочего, ₽/день
+          <input id="workerDayRate" type="number" value="0">
         </label>
 
-        <label>
-          Норма ящиков в день, шт/день
-          <input id="boxesPerDay" type="number" min="0.01" step="0.01" value="10">
+        <label>Норма ящиков в день, шт
+          <input id="boxesPerDay" type="number" step="0.01" value="10">
         </label>
 
-        <label>
-          Кол-во рабочих, чел
-          <input id="workersCount" type="number" min="0" step="1" value="1">
+        <label>Кол-во рабочих, чел
+          <input id="workersCount" type="number" value="1">
         </label>
 
-        <label>
-          Надбавка к работам (премия/ночные), %
-          <input id="laborPct" type="number" min="0" step="0.1" value="0">
+        <label>Надбавка к работам, %
+          <input id="laborPct" type="number" step="0.1" value="0">
         </label>
 
-        <label>
-          Прочие работы (фикс), ₽/ящик
-          <input id="laborFixedPerBox" type="number" min="0" step="1" value="0">
+        <label>Прочие работы (фикс), ₽/ящик
+          <input id="laborFixedPerBox" type="number" value="0">
         </label>
       </div>
-
-      <p class="muted">
-        Расчёт работ: (ставка ₽/день × кол-во рабочих ÷ норма ящиков/день) + прочие работы, потом надбавка %.
-      </p>
     </section>
 
     <section class="card">
       <h2>Состав ящика</h2>
-      <div class="tableWrap">
-        <table id="partsTable">
-          <thead>
-            <tr>
-              <th>Материал</th>
-              <th>Размер (мм)</th>
-              <th>Кол-во</th>
-              <th>Объём 1 шт (м³)</th>
-              <th>Объём итого (м³)</th>
-              <th>Объём с отходами (м³)</th>
-              <th>Стоимость (₽)</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+      <table id="partsTable">
+        <thead>
+          <tr>
+            <th>Материал</th>
+            <th>Размер</th>
+            <th>Кол-во</th>
+            <th>Объём 1 шт</th>
+            <th>Объём итого</th>
+            <th>С отходами</th>
+            <th>Стоимость</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
 
     <section class="card">
       <h2>Сводная</h2>
       <div class="summary">
-        <div>Древесина (чистый объём): <b id="woodVolNet">—</b> м³</div>
-        <div>Древесина (с отходами): <b id="woodVolGross">—</b> м³</div>
         <div>Стоимость древесины: <b id="woodCost">—</b> ₽</div>
         <div>Стоимость уголков: <b id="metalCost">—</b> ₽</div>
         <div>Стоимость гвоздей: <b id="nailCost">—</b> ₽</div>
         <div>Стоимость работ: <b id="laborCost">—</b> ₽</div>
         <hr />
-        <div class="total">Итого (материалы + работы): <b id="totalCost">—</b> ₽</div>
+        <div class="total">ИТОГО: <b id="totalCost">—</b> ₽</div>
       </div>
     </section>
 
     <footer class="muted">
-      Работает без сервера — просто страница на GitHub Pages.
+      GitHub Pages · Яндекс Метрика подключена
     </footer>
   </main>
 
