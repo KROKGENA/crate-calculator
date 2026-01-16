@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Калькулятор стоимости ящика</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>Калькулятор сырьевой стоимости ящика</h1>
+    <p class="muted">Меняй цены — стоимость пересчитается автоматически.</p>
+
+    <section class="card">
+      <h2>Цены</h2>
+
+      <div class="grid">
+        <label>
+          Цена древесины, ₽/м³
+          <input id="woodPrice" type="number" min="0" step="1" value="0">
+        </label>
+
+        <label>
+          Отходы, %
+          <input id="wastePct" type="number" min="0" step="0.1" value="8">
+        </label>
+
+        <label>
+          Уголок металлический, ₽/шт
+          <input id="cornerPrice" type="number" min="0" step="1" value="0">
+        </label>
+
+        <label>
+          Гвоздь ершеный, ₽/кг
+          <input id="nailPrice" type="number" min="0" step="1" value="0">
+        </label>
+      </div>
+
+      <div class="grid">
+        <label>
+          Кол-во уголков, шт
+          <input id="cornerQty" type="number" min="0" step="1" value="4">
+        </label>
+
+        <label>
+          Расход гвоздей, кг
+          <input id="nailKg" type="number" min="0" step="0.01" value="0.6">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Состав ящика</h2>
+      <div class="tableWrap">
+        <table id="partsTable">
+          <thead>
+            <tr>
+              <th>Материал</th>
+              <th>Размер (мм)</th>
+              <th>Кол-во</th>
+              <th>Объём 1 шт (м³)</th>
+              <th>Объём итого (м³)</th>
+              <th>Объём с отходами (м³)</th>
+              <th>Стоимость (₽)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Сводная</h2>
+      <div class="summary">
+        <div>Древесина (чистый объём): <b id="woodVolNet">—</b> м³</div>
+        <div>Древесина (с отходами): <b id="woodVolGross">—</b> м³</div>
+        <div>Стоимость древесины: <b id="woodCost">—</b> ₽</div>
+        <div>Стоимость уголков: <b id="metalCost">—</b> ₽</div>
+        <div>Стоимость гвоздей: <b id="nailCost">—</b> ₽</div>
+        <hr />
+        <div class="total">Итого сырьё: <b id="totalCost">—</b> ₽</div>
+      </div>
+    </section>
+
+    <footer class="muted">
+      Работает без сервера — просто страница на GitHub Pages.
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Калькулятор стоимости ящика</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>Калькулятор сырьевой стоимости ящика</h1>
+    <p class="muted">Меняй цены — стоимость пересчитается автоматически.</p>
+
+    <section class="card">
+      <h2>Цены</h2>
+
+      <div class="grid">
+        <label>
+          Цена древесины, ₽/м³
+          <input id="woodPrice" type="number" min="0" step="1" value="0">
+        </label>
+
+        <label>
+          Отходы, %
+          <input id="wastePct" type="number" min="0" step="0.1" value="8">
+        </label>
+
+        <label>
+          Уголок металлический, ₽/шт
+          <input id="cornerPrice" type="number" min="0" step="1" value="0">
+        </label>
+
+        <label>
+          Гвоздь ершеный, ₽/кг
+          <input id="nailPrice" type="number" min="0" step="1" value="0">
+        </label>
+      </div>
+
+      <div class="grid">
+        <label>
+          Кол-во уголков, шт
+          <input id="cornerQty" type="number" min="0" step="1" value="4">
+        </label>
+
+        <label>
+          Расход гвоздей, кг
+          <input id="nailKg" type="number" min="0" step="0.01" value="0.6">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Состав ящика</h2>
+      <div class="tableWrap">
+        <table id="partsTable">
+          <thead>
+            <tr>
+              <th>Материал</th>
+              <th>Размер (мм)</th>
+              <th>Кол-во</th>
+              <th>Объём 1 шт (м³)</th>
+              <th>Объём итого (м³)</th>
+              <th>Объём с отходами (м³)</th>
+              <th>Стоимость (₽)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Сводная</h2>
+      <div class="summary">
+        <div>Древесина (чистый объём): <b id="woodVolNet">—</b> м³</div>
+        <div>Древесина (с отходами): <b id="woodVolGross">—</b> м³</div>
+        <div>Стоимость древесины: <b id="woodCost">—</b> ₽</div>
+        <div>Стоимость уголков: <b id="metalCost">—</b> ₽</div>
+        <div>Стоимость гвоздей: <b id="nailCost">—</b> ₽</div>
+        <hr />
+        <div class="total">Итого сырьё: <b id="totalCost">—</b> ₽</div>
+      </div>
+    </section>
+
+    <footer class="muted">
+      Работает без сервера — просто страница на GitHub Pages.
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
