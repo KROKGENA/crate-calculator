@@ -8,11 +8,11 @@
 </head>
 <body>
   <main class="wrap">
-    <h1>Калькулятор сырьевой стоимости ящика</h1>
-    <p class="muted">Меняй цены — стоимость пересчитается автоматически.</p>
+    <h1>Калькулятор себестоимости ящика</h1>
+    <p class="muted">Меняй цены и нормы — стоимость пересчитается автоматически.</p>
 
     <section class="card">
-      <h2>Цены</h2>
+      <h2>Материалы</h2>
 
       <div class="grid">
         <label>
@@ -21,7 +21,7 @@
         </label>
 
         <label>
-          Отходы, %
+          Отходы по дереву, %
           <input id="wastePct" type="number" min="0" step="0.1" value="8">
         </label>
 
@@ -31,22 +31,55 @@
         </label>
 
         <label>
-          Гвоздь ершеный, ₽/кг
-          <input id="nailPrice" type="number" min="0" step="1" value="0">
-        </label>
-      </div>
-
-      <div class="grid">
-        <label>
           Кол-во уголков, шт
           <input id="cornerQty" type="number" min="0" step="1" value="4">
         </label>
 
         <label>
-          Расход гвоздей, кг
+          Гвоздь ершеный, ₽/кг
+          <input id="nailPrice" type="number" min="0" step="1" value="0">
+        </label>
+
+        <label>
+          Расход гвоздей, кг/ящик
           <input id="nailKg" type="number" min="0" step="0.01" value="0.6">
         </label>
       </div>
+    </section>
+
+    <section class="card">
+      <h2>Работы</h2>
+
+      <div class="grid">
+        <label>
+          Ставка рабочего, ₽/день
+          <input id="workerDayRate" type="number" min="0" step="1" value="0">
+        </label>
+
+        <label>
+          Норма ящиков в день, шт/день
+          <input id="boxesPerDay" type="number" min="0.01" step="0.01" value="10">
+        </label>
+
+        <label>
+          Кол-во рабочих, чел
+          <input id="workersCount" type="number" min="0" step="1" value="1">
+        </label>
+
+        <label>
+          Надбавка к работам (премия/ночные), %
+          <input id="laborPct" type="number" min="0" step="0.1" value="0">
+        </label>
+
+        <label>
+          Прочие работы (фикс), ₽/ящик
+          <input id="laborFixedPerBox" type="number" min="0" step="1" value="0">
+        </label>
+      </div>
+
+      <p class="muted">
+        Расчёт работ: (ставка ₽/день × кол-во рабочих ÷ норма ящиков/день) + прочие работы, потом надбавка %.
+      </p>
     </section>
 
     <section class="card">
@@ -77,8 +110,9 @@
         <div>Стоимость древесины: <b id="woodCost">—</b> ₽</div>
         <div>Стоимость уголков: <b id="metalCost">—</b> ₽</div>
         <div>Стоимость гвоздей: <b id="nailCost">—</b> ₽</div>
+        <div>Стоимость работ: <b id="laborCost">—</b> ₽</div>
         <hr />
-        <div class="total">Итого сырьё: <b id="totalCost">—</b> ₽</div>
+        <div class="total">Итого (материалы + работы): <b id="totalCost">—</b> ₽</div>
       </div>
     </section>
 
