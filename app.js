@@ -10,7 +10,6 @@ const PARTS = [
 const $ = (id) => document.getElementById(id);
 
 function volumeM3(T, W, L) {
-  // мм -> м
   return (T / 1000) * (W / 1000) * (L / 1000);
 }
 
@@ -24,10 +23,16 @@ function money(n) {
 }
 
 function readNum(id) {
-  // поддержка запятой 0,6
-  const raw = String($(id).value ?? "").trim().replace(",", ".");
+  const el = $(id);
+  if (!el) return 0;
+  const raw = String(el.value ?? "").trim().replace(",", ".");
   const v = Number(raw);
   return Number.isFinite(v) ? v : 0;
+}
+
+function setText(id, text) {
+  const el = $(id);
+  if (el) el.textContent = text;
 }
 
 function render() {
@@ -43,15 +48,16 @@ function render() {
   const nailKg    = readNum("nailKg");        // кг/ящик
 
   // Работы
-  const workerDayRate = readNum("workerDayRate"); // ₽/день за 1 рабочего
+  const workerDayRate = readNum("workerDayRate"); // ₽/день
   const boxesPerDay   = Math.max(readNum("boxesPerDay"), 0.000001); // защита от деления на 0
   const workersCount  = readNum("workersCount"); // чел
   const laborPct      = readNum("laborPct"); // %
   const laborFixedPerBox = readNum("laborFixedPerBox"); // ₽/ящик
 
   // Таблица деталей
-  const tbody = $("partsTable").querySelector("tbody");
-  tbody.innerHTML = "";
+  const table = $("partsTable");
+  const tbody = table ? table.querySelector("tbody") : null;
+  if (tbody) tbody.innerHTML = "";
 
   let woodVolNet = 0;
   let woodVolGross = 0;
@@ -67,24 +73,25 @@ function render() {
     woodVolGross += vGross;
     woodCost += cost;
 
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${p.name}</td>
-      <td>${p.T}×${p.W}×${p.L}</td>
-      <td>${p.qty}</td>
-      <td>${round(v1, 6)}</td>
-      <td>${round(vTot, 6)}</td>
-      <td>${round(vGross, 6)}</td>
-      <td>${money(cost)}</td>
-    `;
-    tbody.appendChild(tr);
+    if (tbody) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${p.name}</td>
+        <td>${p.T}×${p.W}×${p.L}</td>
+        <td>${p.qty}</td>
+        <td>${round(v1, 6)}</td>
+        <td>${round(vTot, 6)}</td>
+        <td>${round(vGross, 6)}</td>
+        <td>${money(cost)}</td>
+      `;
+      tbody.appendChild(tr);
+    }
   }
 
-  // Прочие компоненты
   const metalCost = cornerPrice * cornerQty;
   const nailCost = nailPrice * nailKg;
 
-  // Работы: ставка/день * кол-во рабочих / норма ящиков в день
+  // Работы: (₽/день * чел / ящиков в день) + фикс, затем надбавка %
   const laborPerBoxBase = (workerDayRate * workersCount) / boxesPerDay;
   const laborBeforePct = laborPerBoxBase + laborFixedPerBox;
   const laborCost = laborBeforePct * (1 + laborPct / 100);
@@ -92,15 +99,13 @@ function render() {
   const total = woodCost + metalCost + nailCost + laborCost;
 
   // Сводная
-  $("woodVolNet").textContent = round(woodVolNet, 6);
-  $("woodVolGross").textContent = round(woodVolGross, 6);
-  $("woodCost").textContent = money(woodCost);
-
-  $("metalCost").textContent = money(metalCost);
-  $("nailCost").textContent = money(nailCost);
-  $("laborCost").textContent = money(laborCost);
-
-  $("totalCost").textContent = money(total);
+  setText("woodVolNet", round(woodVolNet, 6));
+  setText("woodVolGross", round(woodVolGross, 6));
+  setText("woodCost", money(woodCost));
+  setText("metalCost", money(metalCost));
+  setText("nailCost", money(nailCost));
+  setText("laborCost", money(laborCost));
+  setText("totalCost", money(total));
 }
 
 function setup() {
@@ -111,7 +116,11 @@ function setup() {
     "workerDayRate","boxesPerDay","workersCount","laborPct","laborFixedPerBox"
   ];
 
-  ids.forEach((id) => $(id).addEventListener("input", render));
+  ids.forEach((id) => {
+    const el = $(id);
+    if (el) el.addEventListener("input", render);
+  });
+
   render();
 }
 
